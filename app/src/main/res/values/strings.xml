@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">Blood Bank</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+    <string name="not_a_member_yet_register">Not a member yet? Register</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="company_name">PSK Infotech</string>
+    <string name="phone">Phone</string>
+    <string name="referral_code_optional">Referral Code(Optional)</string>
+    <string name="signup">SignUp</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="total_earnings">Total Earnings:</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="dob">DOB</string>
+    <string name="gender">Gender</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="weight">Weight</string>
+    <string name="city">City</string>
+    <string name="address">Address</string>
+
+    <string name="facebook_app_id">185764215359103</string>
+    <string name="fb_login_protocol_scheme">fb185764215359103</string>
+
+
+    <string-array name="gender_array">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="group_array">
+        <item>Blood Group</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
+    <string-array name="bank_type">
+        <item>Type</item>
+        <item>Independent</item>
+        <item>Government</item>
+        <item>Hospital</item>
+    </string-array>
+
+    <string-array name="india_states">
+        <item>State</item>
+        <item>Andaman and Nicobar Islands</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chandigarh</item>
+        <item>Chhattisgarh</item>
+        <item>Dadra and Nagar Haveli</item>
+        <item>Daman and Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Lakshadweep</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Orissa</item>
+        <item>Pondicherry</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Telangana</item>
+        <item>Tripura</item>
+        <item>Uttaranchal</item>
+        <item>Uttar Pradesh</item>
+        <item>West Bengal</item>
+    </string-array>
+</resources>
