@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f00"
+    tools:context="com.example.sam.bloodbank.seekerPage">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f00"
+        android:id="@+id/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginLeft="22sp"
+            android:layout_marginStart="22sp"
+            android:layout_marginEnd="22sp"
+            android:layout_marginRight="22sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#800"
+                android:text="How much blood do you need?"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#800"
+                android:hint="units(1 unit = 350 ml)"
+                android:id="@+id/units"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:textColor="#800"
+                android:text="When do you want the blood?"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="dd/mm/yyyy"
+                android:textColor="#800"
+                android:id="@+id/date"
+                android:inputType="date"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:background="#800"
+                android:id="@+id/requestblood"
+                android:text="Request Blood"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+
+</RelativeLayout>

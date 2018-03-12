@@ -155,10 +155,6 @@ public class SeekerRegistration extends AppCompatActivity {
                     etaddress.setError("Empty field");
                     return;
                 }
-                if (reqdate.equals("")){
-                    requireddate.setError("Empty field");
-                    return;
-                }
                 if (hosaddress.equals("")){
                     hospitaladdress.setError("Empty field");
                     return;

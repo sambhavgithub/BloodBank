@@ -322,7 +322,7 @@
                     android:focusable="false"
                     android:textColorHint="#4885ed"
                     android:textSize="15sp"
-                    android:hint="Required Date"/>
+                    android:hint="Required Date(Optional)"/>
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
