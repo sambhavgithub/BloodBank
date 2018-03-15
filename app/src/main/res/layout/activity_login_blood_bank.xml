@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    tools:context="com.example.sam.bloodbank.LoginActivity">
+    tools:context="com.example.sam.bloodbank.LoginActivityBloodBank">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="Sign In as Blood Bank"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:visibility="visible" />
     <TextView
@@ -68,18 +68,47 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:id="@+id/forgotpassword" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:id="@+id/createaccount"
-            android:text="Create Account"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Forgot Password?"
+                android:id="@+id/forgotpassword" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sign in as Donor"
+                android:id="@+id/SignasDonor" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:id="@+id/createaccount"
+                android:layout_weight="1"
+                android:text="Create Account"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="20sp"
+                android:text="Sign in as Receptor/Patient"
+                android:id="@+id/SignasReceptor" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

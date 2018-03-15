@@ -2,6 +2,7 @@ package com.example.sam.bloodbank;
 
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class seekerPage extends AppCompatActivity {
 
     EditText etdate, etunit;
     Button requestblood;
     Toolbar toolbar;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    DatabaseReference databaseReference;
+    String UserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +37,11 @@ public class seekerPage extends AppCompatActivity {
         etunit = findViewById(R.id.units);
         requestblood = findViewById(R.id.requestblood);
 
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        user = mAuth.getCurrentUser();
+        UserID = user.getUid();
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,8 +50,8 @@ public class seekerPage extends AppCompatActivity {
         requestblood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String date = etdate.getText().toString();
-                String unit = etunit.getText().toString();
+                final String date = etdate.getText().toString();
+                final String unit = etunit.getText().toString();
 
                 if(unit.equals("")){
                     etunit.setError("Enter the amount of blood");
@@ -51,6 +67,8 @@ public class seekerPage extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        databaseReference.child("Users").child("Patient").child(UserID).setValue(date);
+                        databaseReference.child("Users").child("Patient").child(UserID).setValue(unit);
                         Log.d("builder", "positive");
                     }
                 });
@@ -71,10 +89,8 @@ public class seekerPage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.history:
-                Log.d("item", "history");
-                return true;
             case R.id.myaccount:
+                startActivity(new Intent(seekerPage.this, MyAccountPatient.class));
                 Log.d("item", "myaccount");
                 return true;
             case R.id.logout:

@@ -1,20 +1,29 @@
 package com.example.sam.bloodbank;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,7 +37,12 @@ public class DonorRegistration extends AppCompatActivity {
     TextView tvlogin;
     Calendar myCalendar;
     String genderselected, groupselected;
+    String name, email, password, confirmpass, dob, weight, phone, city, address;
     CheckBox terms, eligibility;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    String UserID;
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +63,10 @@ public class DonorRegistration extends AppCompatActivity {
         tvlogin = findViewById(R.id.tvalreadymember);
         terms = findViewById(R.id.terms);
         eligibility = findViewById(R.id.eligibility);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -79,15 +97,17 @@ public class DonorRegistration extends AppCompatActivity {
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = etname.getText().toString();
-                String email = etemail.getText().toString();
-                String weight = etweight.getText().toString();
-                String dob = etdob.getText().toString();
-                String phone = etphone.getText().toString();
-                String city = etcity.getText().toString();
-                String address = etaddress.getText().toString();
-                String password = etpassword.getText().toString();
-                String confirmpass = etconfirmpassword.getText().toString();
+               name = etname.getText().toString();
+                email = etemail.getText().toString();
+                weight = etweight.getText().toString();
+                dob = etdob.getText().toString();
+                 phone = etphone.getText().toString();
+                 city = etcity.getText().toString();
+                 address = etaddress.getText().toString();
+                 password = etpassword.getText().toString();
+                 confirmpass = etconfirmpassword.getText().toString();
+
+                final UserInfoDonor userInfoDonor = new UserInfoDonor(name, email, groupselected, genderselected, dob, weight, phone, city, address);
 
                 if (name.equals("")){
                     etname.setError("Empty field");
@@ -149,6 +169,26 @@ public class DonorRegistration extends AppCompatActivity {
                     Snackbar.make(view, "Please accept Terms and Conditions", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(DonorRegistration.this, "Success", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(DonorRegistration.this, LoginActivityDonor.class));
+                                }
+                                else {
+                                    Toast.makeText(DonorRegistration.this, "Failed", Toast.LENGTH_SHORT).show();
+                                }
+                                user = mAuth.getCurrentUser();
+                                UserID = user.getUid();
+                                databaseReference.child("Users").child("Donor").child(UserID).setValue(userInfoDonor);
+                                user.sendEmailVerification();
+                                mAuth.signOut();
+
+                            }
+                        });
+                Snackbar.make(view, "A verification message has been send to your email ID.", Snackbar.LENGTH_LONG).show();
             }
         });
 

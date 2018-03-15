@@ -1,6 +1,8 @@
 package com.example.sam.bloodbank;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,13 +31,18 @@ import java.util.Locale;
 
 public class SeekerRegistration extends AppCompatActivity {
 
-    EditText etname, etpassword, etemail, etconfirmpassword, etweight, etdob, etphone, etcity, etaddress, hospitalname, hospitaladdress, alternatephone, requireddate;
+    EditText etname, etpassword, etemail, etconfirmpassword, etweight, etdob, etphone, etcity, etcity2, etaddress, hospitalname, hospitaladdress, alternatephone, requireddate;
     Spinner bloodgroup, gender;
     Button btnsignup;
     TextView tvlogin;
     Calendar calendardob, calendardate;
     String genderselected, groupselected;
+    String name, password, confirmpass, email, dob, weight, hosname, hosaddress, city2, phone, alternate, city, reqdate, address;
     CheckBox terms;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    DatabaseReference databaseReference;
+    String UserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +56,7 @@ public class SeekerRegistration extends AppCompatActivity {
         etdob = findViewById(R.id.etdob);
         etphone = findViewById(R.id.etnumber);
         etcity = findViewById(R.id.etcity);
+        etcity2 = findViewById(R.id.etcity2);
         etaddress = findViewById(R.id.etaddress);
         btnsignup = findViewById(R.id.btnsignup);
         bloodgroup= findViewById(R.id.bloodgroup);
@@ -50,6 +67,10 @@ public class SeekerRegistration extends AppCompatActivity {
         hospitaladdress = findViewById(R.id.HospitalAddress);
         requireddate = findViewById(R.id.requireddate);
         terms = findViewById(R.id.terms);
+
+        final UserInfoPatient userInfoPatient = new UserInfoPatient(name, email, dob, weight, groupselected, genderselected, hosname, hosaddress, city2, phone, alternate, city, reqdate, address);
+
+        mAuth = FirebaseAuth.getInstance();
 
         gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -80,19 +101,20 @@ public class SeekerRegistration extends AppCompatActivity {
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = etname.getText().toString();
-                String email = etemail.getText().toString();
-                String weight = etweight.getText().toString();
-                String dob = etdob.getText().toString();
-                String phone = etphone.getText().toString();
-                String city = etcity.getText().toString();
-                String address = etaddress.getText().toString();
-                String password = etpassword.getText().toString();
-                String confirmpass = etconfirmpassword.getText().toString();
-                String alternate = alternatephone.getText().toString();
-                String hosname = hospitalname.getText().toString();
-                String hosaddress = hospitaladdress.getText().toString();
-                String reqdate = requireddate.getText().toString();
+                 name = etname.getText().toString();
+                 email = etemail.getText().toString();
+                 weight = etweight.getText().toString();
+                 dob = etdob.getText().toString();
+                 phone = etphone.getText().toString();
+                 city = etcity.getText().toString();
+                 city2 = etcity2.getText().toString();
+                 address = etaddress.getText().toString();
+                 password = etpassword.getText().toString();
+                 confirmpass = etconfirmpassword.getText().toString();
+                 alternate = alternatephone.getText().toString();
+                 hosname = hospitalname.getText().toString();
+                 hosaddress = hospitaladdress.getText().toString();
+                 reqdate = requireddate.getText().toString();
 
 
                 if (name.equals("")){
@@ -151,6 +173,10 @@ public class SeekerRegistration extends AppCompatActivity {
                     etcity.setError("Empty field");
                     return;
                 }
+                if (city2.equals("")){
+                    etcity2.setError("Empty field");
+                    return;
+                }
                 if (address.equals("")) {
                     etaddress.setError("Empty field");
                     return;
@@ -167,6 +193,27 @@ public class SeekerRegistration extends AppCompatActivity {
                     Snackbar.make(view, "Please accept Terms and Conditions", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(SeekerRegistration.this, "Success", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(SeekerRegistration.this, LoginActivityPatient.class));
+                                }
+                                else {
+                                    Toast.makeText(SeekerRegistration.this, "Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                mAuth = FirebaseAuth.getInstance();
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                user = mAuth.getCurrentUser();
+                UserID = user.getUid();
+                databaseReference.child("Users").child("Patient").child(UserID).setValue(userInfoPatient);
+                user.sendEmailVerification();
+                mAuth.signOut();
+                Snackbar.make(view, "A verification message has been send to your email ID. Check you Email and click verify to continue.", Snackbar.LENGTH_LONG).show();
             }
         });
         calendardob = Calendar.getInstance();

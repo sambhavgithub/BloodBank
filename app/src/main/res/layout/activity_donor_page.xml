@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:textColor="#800"
-            android:text="When do you want to donate the blood blood?"/>
+            android:text="When do you want to donate the blood?"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +37,19 @@
             android:textColor="#800"
             android:id="@+id/date"
             android:inputType="date"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:textColor="#800"
+            android:text="How many days before you have donated your blood?"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#800"
+            android:id="@+id/lastdate"
+            android:inputType="numberSigned"/>
 
 
         <Button

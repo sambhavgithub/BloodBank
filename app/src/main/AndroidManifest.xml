@@ -16,7 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".DonorRegistration" />
         <activity android:name=".SeekerRegistration" />
 
@@ -41,15 +47,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".BloodBankRegistration" />
-        <activity android:name=".DonorPage"></activity>
+        <activity android:name=".DonorPage" />
         <activity android:name=".seekerPage" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".LoginActivityBloodBank"/>
+        <activity android:name=".LoginActivityDonor" />
+        <activity android:name=".LoginActivityPatient" />
+        <activity android:name=".MyAccountDonor" />
+        <activity android:name=".MyAccountPatient" />
+        <activity android:name=".MyAccountBloodBank"/>
     </application>
 
 </manifest>
