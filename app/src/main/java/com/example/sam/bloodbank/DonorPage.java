@@ -73,7 +73,9 @@ public class DonorPage extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseReference.child("Users").child("Donor").child(UserID).child("date").setValue(date);
+                        etdate.setText("");
+                        etlastdate.setText("");
+                        databaseReference.child("Users").child(UserID).child("donatedate").setValue(date);
                         Toast.makeText(DonorPage.this, "Request has been sent", Toast.LENGTH_SHORT).show();
                         Log.d("builder", "positive");
                     }
@@ -94,6 +96,8 @@ public class DonorPage extends AppCompatActivity {
                 return true;
             case R.id.logout:
                 mAuth.signOut();
+                Toast.makeText(DonorPage.this, "Sign out successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DonorPage.this, LoginActivityDonor.class));
                 Log.d("item", "logout");
                 return true;
         }

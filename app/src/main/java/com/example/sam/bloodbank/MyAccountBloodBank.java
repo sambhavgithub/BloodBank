@@ -56,16 +56,31 @@ public class MyAccountBloodBank extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                name = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("name").getValue().toString();
-                email = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("email").getValue().toString();
-                city = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("city").getValue().toString();
-                local = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("locality").getValue().toString();
-                contperson = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("contactPerson").getValue().toString();
-                contnumber = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("contactNumber").getValue().toString();
-                address = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("address").getValue().toString();
-                typeselected = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("type").getValue().toString();
-                stateselected = dataSnapshot.child("Users").child("BloodBank").child(UserID).child("state").getValue().toString();
+                name = dataSnapshot.child("Users").child(UserID).child("name").getValue().toString();
+                email = dataSnapshot.child("Users").child(UserID).child("email").getValue().toString();
+                city = dataSnapshot.child("Users").child(UserID).child("city").getValue().toString();
+                local = dataSnapshot.child("Users").child(UserID).child("locality").getValue().toString();
+                contperson = dataSnapshot.child("Users").child(UserID).child("contactPerson").getValue().toString();
+                contnumber = dataSnapshot.child("Users").child(UserID).child("contactNumber").getValue().toString();
+                address = dataSnapshot.child("Users").child(UserID).child("address").getValue().toString();
+                typeselected = dataSnapshot.child("Users").child(UserID).child("type").getValue().toString();
+                stateselected = dataSnapshot.child("Users").child(UserID).child("state").getValue().toString();
 
+                ArrayAdapter myAdap = (ArrayAdapter) type.getAdapter();
+                int typePosition = myAdap.getPosition(typeselected);
+                type.setSelection(typePosition);
+
+                ArrayAdapter myAdap2 = (ArrayAdapter) state.getAdapter();
+                int statePosition = myAdap2.getPosition(stateselected);
+                state.setSelection(statePosition);
+
+                etemail.setText(email);
+                etname.setText(name);
+                etcity.setText(city);
+                locality.setText(local);
+                contactperson.setText(contperson);
+                contactnumber.setText(contnumber);
+                etaddress.setText(address);
             }
 
             @Override
@@ -73,23 +88,6 @@ public class MyAccountBloodBank extends AppCompatActivity {
 
             }
         });
-
-        ArrayAdapter myAdap = (ArrayAdapter) type.getAdapter();
-        int typePosition = myAdap.getPosition(typeselected);
-        type.setSelection(typePosition);
-
-        ArrayAdapter myAdap2 = (ArrayAdapter) state.getAdapter();
-        int statePosition = myAdap2.getPosition(stateselected);
-        state.setSelection(statePosition);
-
-        etemail.setText(email);
-        etname.setText(name);
-        etcity.setText(city);
-        locality.setText(local);
-        contactperson.setText(contperson);
-        contactnumber.setText(contnumber);
-        etaddress.setText(address);
-
 
         final UserInfoBloodBank userInfoBloodBank = new UserInfoBloodBank(name, typeselected, contperson, contnumber, email, address, stateselected, local);
 
@@ -153,7 +151,7 @@ public class MyAccountBloodBank extends AppCompatActivity {
                 }
                 user = mAuth.getCurrentUser();
                 UserID = user.getUid();
-                databaseReference.child("Users").child("BloodBank").child(UserID).setValue(userInfoBloodBank);
+                databaseReference.child("Users").child(UserID).setValue(userInfoBloodBank);
                 Snackbar.make(view, "blood bank page will open", Snackbar.LENGTH_LONG).show();
             }
         });

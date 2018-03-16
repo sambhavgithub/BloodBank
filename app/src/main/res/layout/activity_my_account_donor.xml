@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="false"
-                        android:inputType="textEmailAddress"
+                        android:inputType="none"
                         android:textColorHint="#4885ed"
                         android:textSize="15sp"
                         android:hint="@string/email"/>
@@ -100,8 +100,7 @@
                         android:id="@+id/etdob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="false"
+                        android:clickable="false"
                         android:textColorHint="#4885ed"
                         android:textSize="15sp"
                         android:hint="@string/dob"/>

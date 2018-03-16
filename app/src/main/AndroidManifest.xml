@@ -52,7 +52,9 @@
         <activity android:name=".LoginActivityBloodBank"/>
         <activity android:name=".LoginActivityDonor" />
         <activity android:name=".LoginActivityPatient" />
-        <activity android:name=".MyAccountDonor" />
+        <activity android:name=".MyAccountDonor" >
+
+        </activity>
         <activity android:name=".MyAccountPatient" />
         <activity android:name=".MyAccountBloodBank"/>
     </application>

@@ -58,7 +58,7 @@ public class BloodBankRegistration extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        final UserInfoBloodBank userInfoBloodBank = new UserInfoBloodBank(name, typeselected, contperson, contnumber, email, address, stateselected, local);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,6 +98,8 @@ public class BloodBankRegistration extends AppCompatActivity {
                 address = etaddress.getText().toString();
                 password = etpassword.getText().toString();
                 confirmpass = etconfirmpassword.getText().toString();
+
+                final UserInfoBloodBank userInfoBloodBank = new UserInfoBloodBank(name, typeselected, contperson, contnumber, email, address, stateselected, local);
 
                 if (name.equals("")){
                     etname.setError("Empty field");
@@ -170,16 +172,20 @@ public class BloodBankRegistration extends AppCompatActivity {
                                 else {
                                     Toast.makeText(BloodBankRegistration.this, "Failed", Toast.LENGTH_SHORT).show();
                                 }
+                                user = mAuth.getCurrentUser();
+                                UserID = user.getUid();
+                                user.sendEmailVerification();
+                                databaseReference.child("Users").child(UserID).setValue(userInfoBloodBank);
+                                mAuth.signOut();
                             }
                         });
-                mAuth = FirebaseAuth.getInstance();
-                databaseReference = FirebaseDatabase.getInstance().getReference();
-                user = mAuth.getCurrentUser();
-                UserID = user.getUid();
-                user.sendEmailVerification();
-                databaseReference.child("Users").child("BloodBank").child(UserID).setValue(userInfoBloodBank);
-                mAuth.signOut();
                 Snackbar.make(view, "A verification message has been send to your email ID. Check you Email and click verify to continue.", Snackbar.LENGTH_LONG).show();
+            }
+        });
+        tvlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BloodBankRegistration.this, LoginActivityBloodBank.class));
             }
         });
     }

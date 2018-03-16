@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,42 +61,50 @@ public class MyAccountDonor extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                name = dataSnapshot.child("Users").child("Donor").child(UserID).child("name").getValue().toString();
-                email = dataSnapshot.child("Users").child("Donor").child(UserID).child("email").getValue().toString();
-                city = dataSnapshot.child("Users").child("Donor").child(UserID).child("city").getValue().toString();
-                weight = dataSnapshot.child("Users").child("Donor").child(UserID).child("weight").getValue().toString();
-                dob = dataSnapshot.child("Users").child("Donor").child(UserID).child("dob").getValue().toString();
-                phone = dataSnapshot.child("Users").child("Donor").child(UserID).child("phone").getValue().toString();
-                address = dataSnapshot.child("Users").child("Donor").child(UserID).child("address").getValue().toString();
-                groupselected = dataSnapshot.child("Users").child("Donor").child(UserID).child("bloodgroup").getValue().toString();
-                genderselected = dataSnapshot.child("Users").child("Donor").child(UserID).child("gender").getValue().toString();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            UserID = user.getUid();
+            Log.d("ifelse", "user is "+user);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d("name", "datasnapshot is" + dataSnapshot);
+                    name = dataSnapshot.child("Users").child("Donor").child(UserID).child("name").getValue().toString();
+                    Log.d("name", "name is " + name);
+                    email = dataSnapshot.child("Users").child(UserID).child("email").getValue().toString();
+                    city = dataSnapshot.child("Users").child(UserID).child("city").getValue().toString();
+                    weight = dataSnapshot.child("Users").child(UserID).child("weight").getValue().toString();
+                    dob = dataSnapshot.child("Users").child(UserID).child("dob").getValue().toString();
+                    phone = dataSnapshot.child("Users").child(UserID).child("phone").getValue().toString();
+                    address = dataSnapshot.child("Users").child(UserID).child("address").getValue().toString();
+                    groupselected = dataSnapshot.child("Users").child(UserID).child("bloodgroup").getValue().toString();
+                    genderselected = dataSnapshot.child("Users").child(UserID).child("gender").getValue().toString();
 
-            }
+                    ArrayAdapter myAdap = (ArrayAdapter) gender.getAdapter();
+                    int genderPosition = myAdap.getPosition(genderselected);
+                    gender.setSelection(genderPosition);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    ArrayAdapter myAdap2 = (ArrayAdapter) bloodgroup.getAdapter();
+                    int groupPosition = myAdap2.getPosition(groupselected);
+                    bloodgroup.setSelection(groupPosition);
 
-            }
-        });
+                    etemail.setText(email);
+                    etname.setText(name);
+                    etcity.setText(city);
+                    etweight.setText(weight);
+                    etdob.setText(dob);
+                    etphone.setText(phone);
+                    etaddress.setText(address);
+                }
 
-        ArrayAdapter myAdap = (ArrayAdapter) gender.getAdapter();
-        int genderPosition = myAdap.getPosition(genderselected);
-        gender.setSelection(genderPosition);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-        ArrayAdapter myAdap2 = (ArrayAdapter) bloodgroup.getAdapter();
-        int groupPosition = myAdap2.getPosition(groupselected);
-        bloodgroup.setSelection(groupPosition);
-
-        etemail.setText(email);
-        etname.setText(name);
-        etcity.setText(city);
-        etweight.setText(weight);
-        etdob.setText(dob);
-        etphone.setText(phone);
-        etaddress.setText(address);
+                }
+            });
+        }
+        else
+            Log.d("ifelse", "else");
 
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +178,13 @@ public class MyAccountDonor extends AppCompatActivity {
                 new DatePickerDialog(MyAccountDonor.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        tvcancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyAccountDonor.this, DonorPage.class));
             }
         });
     }

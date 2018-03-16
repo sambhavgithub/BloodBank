@@ -57,6 +57,7 @@ public class MyAccountPatient extends AppCompatActivity {
         hospitalname = findViewById(R.id.HospitalName);
         hospitaladdress = findViewById(R.id.HospitalAddress);
         etcity2 = findViewById(R.id.etcity2);
+        alternatephone = findViewById(R.id.alternatephone);
         requireddate = findViewById(R.id.requireddate);
 
         mAuth = FirebaseAuth.getInstance();
@@ -66,20 +67,41 @@ public class MyAccountPatient extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                name = dataSnapshot.child("Users").child("Patient").child(UserID).child("name").getValue().toString();
-                email = dataSnapshot.child("Users").child("Patient").child(UserID).child("email").getValue().toString();
-                city = dataSnapshot.child("Users").child("Patient").child(UserID).child("city").getValue().toString();
-                weight = dataSnapshot.child("Users").child("Patient").child(UserID).child("weight").getValue().toString();
-                dob = dataSnapshot.child("Users").child("Patient").child(UserID).child("dob").getValue().toString();
-                phone = dataSnapshot.child("Users").child("Patient").child(UserID).child("phone").getValue().toString();
-                address = dataSnapshot.child("Users").child("Patient").child(UserID).child("address").getValue().toString();
-                groupselected = dataSnapshot.child("Users").child("Patient").child(UserID).child("bloodgroup").getValue().toString();
-                genderselected = dataSnapshot.child("Users").child("Patient").child(UserID).child("gender").getValue().toString();
-                hosname = dataSnapshot.child("Users").child("Patient").child(UserID).child("hosname").getValue().toString();
-                hosaddress = dataSnapshot.child("Users").child("Patient").child(UserID).child("hosaddress").getValue().toString();
-                city2 = dataSnapshot.child("Users").child("Patient").child(UserID).child("city2").getValue().toString();
-                reqdate = dataSnapshot.child("Users").child("Patient").child(UserID).child("reqdate").getValue().toString();
+                name = dataSnapshot.child("Users").child(UserID).child("name").getValue().toString();
+                email = dataSnapshot.child("Users").child(UserID).child("email").getValue().toString();
+                city = dataSnapshot.child("Users").child(UserID).child("city").getValue().toString();
+                weight = dataSnapshot.child("Users").child(UserID).child("weight").getValue().toString();
+                dob = dataSnapshot.child("Users").child(UserID).child("dob").getValue().toString();
+                phone = dataSnapshot.child("Users").child(UserID).child("phone").getValue().toString();
+                address = dataSnapshot.child("Users").child(UserID).child("address").getValue().toString();
+                groupselected = dataSnapshot.child("Users").child(UserID).child("bloodgroup").getValue().toString();
+                genderselected = dataSnapshot.child("Users").child(UserID).child("gender").getValue().toString();
+                hosname = dataSnapshot.child("Users").child(UserID).child("hosname").getValue().toString();
+                hosaddress = dataSnapshot.child("Users").child(UserID).child("hosaddress").getValue().toString();
+                city2 = dataSnapshot.child("Users").child(UserID).child("city2").getValue().toString();
+                reqdate = dataSnapshot.child("Users").child(UserID).child("reqdate").getValue().toString();
+                alternate = dataSnapshot.child("Users").child(UserID).child("alternatephone").getValue().toString();
 
+                ArrayAdapter myAdap = (ArrayAdapter) gender.getAdapter();
+                int genderPosition = myAdap.getPosition(genderselected);
+                gender.setSelection(genderPosition);
+
+                ArrayAdapter myAdap2 = (ArrayAdapter) bloodgroup.getAdapter();
+                int groupPosition = myAdap2.getPosition(groupselected);
+                bloodgroup.setSelection(groupPosition);
+
+                etemail.setText(email);
+                etname.setText(name);
+                etcity.setText(city);
+                etweight.setText(weight);
+                etdob.setText(dob);
+                etphone.setText(phone);
+                etaddress.setText(address);
+                hospitaladdress.setText(hosaddress);
+                hospitalname.setText(hosname);
+                etcity2.setText(city2);
+                requireddate.setText(reqdate);
+                alternatephone.setText(alternate);
             }
 
             @Override
@@ -87,26 +109,6 @@ public class MyAccountPatient extends AppCompatActivity {
 
             }
         });
-
-        ArrayAdapter myAdap = (ArrayAdapter) gender.getAdapter();
-        int genderPosition = myAdap.getPosition(genderselected);
-        gender.setSelection(genderPosition);
-
-        ArrayAdapter myAdap2 = (ArrayAdapter) bloodgroup.getAdapter();
-        int groupPosition = myAdap2.getPosition(groupselected);
-        bloodgroup.setSelection(groupPosition);
-
-        etemail.setText(email);
-        etname.setText(name);
-        etcity.setText(city);
-        etweight.setText(weight);
-        etdob.setText(dob);
-        etphone.setText(phone);
-        etaddress.setText(address);
-        hospitaladdress.setText(hosaddress);
-        hospitalname.setText(hosname);
-        etcity2.setText(city2);
-        requireddate.setText(reqdate);
 
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +122,6 @@ public class MyAccountPatient extends AppCompatActivity {
                 address = etaddress.getText().toString();
                 hosname = hospitalname.getText().toString();
                 hosaddress = hospitaladdress.getText().toString();
-                alternatephone = findViewById(R.id.alternatephone);
                 city2 = etcity2.getText().toString();
                 reqdate = requireddate.getText().toString();
 
@@ -164,7 +165,7 @@ public class MyAccountPatient extends AppCompatActivity {
                 }
                 user = mAuth.getCurrentUser();
                 UserID = user.getUid();
-                databaseReference.child("Users").child("Patient").child(UserID).setValue(userInfoPatient);
+                databaseReference.child("Users").child(UserID).setValue(userInfoPatient);
                 Toast.makeText(MyAccountPatient.this, "Update Successful", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MyAccountPatient.this, seekerPage.class));
             }

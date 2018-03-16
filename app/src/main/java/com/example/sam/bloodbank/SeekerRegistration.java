@@ -68,9 +68,10 @@ public class SeekerRegistration extends AppCompatActivity {
         requireddate = findViewById(R.id.requireddate);
         terms = findViewById(R.id.terms);
 
-        final UserInfoPatient userInfoPatient = new UserInfoPatient(name, email, dob, weight, groupselected, genderselected, hosname, hosaddress, city2, phone, alternate, city, reqdate, address);
 
         mAuth = FirebaseAuth.getInstance();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -116,6 +117,7 @@ public class SeekerRegistration extends AppCompatActivity {
                  hosaddress = hospitaladdress.getText().toString();
                  reqdate = requireddate.getText().toString();
 
+                final UserInfoPatient userInfoPatient = new UserInfoPatient(name, email, dob, weight, groupselected, genderselected, hosname, hosaddress, city2, phone, alternate, city, reqdate, address);
 
                 if (name.equals("")){
                     etname.setError("Empty field");
@@ -204,16 +206,15 @@ public class SeekerRegistration extends AppCompatActivity {
                                 else {
                                     Toast.makeText(SeekerRegistration.this, "Failed", Toast.LENGTH_SHORT).show();
                                 }
+                                user = mAuth.getCurrentUser();
+                                UserID = user.getUid();
+                                databaseReference = FirebaseDatabase.getInstance().getReference();
+                                databaseReference.child("Users").child(UserID).setValue(userInfoPatient);
+                                user.sendEmailVerification();
+                                mAuth.signOut();
                             }
                         });
-                mAuth = FirebaseAuth.getInstance();
-                databaseReference = FirebaseDatabase.getInstance().getReference();
-                user = mAuth.getCurrentUser();
-                UserID = user.getUid();
-                databaseReference.child("Users").child("Patient").child(UserID).setValue(userInfoPatient);
-                user.sendEmailVerification();
-                mAuth.signOut();
-                Snackbar.make(view, "A verification message has been send to your email ID. Check you Email and click verify to continue.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "A verification message has been send to your email ID", Snackbar.LENGTH_LONG).show();
             }
         });
         calendardob = Calendar.getInstance();
@@ -265,6 +266,13 @@ public class SeekerRegistration extends AppCompatActivity {
                 new DatePickerDialog(SeekerRegistration.this, date1, calendardate
                         .get(Calendar.YEAR), calendardate.get(Calendar.MONTH),
                         calendardate.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        tvlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SeekerRegistration.this, LoginActivityPatient.class));
             }
         });
     }

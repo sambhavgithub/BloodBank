@@ -182,13 +182,20 @@ public class DonorRegistration extends AppCompatActivity {
                                 }
                                 user = mAuth.getCurrentUser();
                                 UserID = user.getUid();
-                                databaseReference.child("Users").child("Donor").child(UserID).setValue(userInfoDonor);
+                                databaseReference.child("Users").child(UserID).setValue(userInfoDonor);
                                 user.sendEmailVerification();
                                 mAuth.signOut();
 
                             }
                         });
                 Snackbar.make(view, "A verification message has been send to your email ID.", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DonorRegistration.this, LoginActivityDonor.class));
             }
         });
 

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -67,8 +68,11 @@ public class seekerPage extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseReference.child("Users").child("Patient").child(UserID).setValue(date);
-                        databaseReference.child("Users").child("Patient").child(UserID).setValue(unit);
+                        etdate.setText("");
+                        etunit.setText("");
+                        Toast.makeText(seekerPage.this, "Request has been sent", Toast.LENGTH_SHORT).show();
+                        databaseReference.child("Users").child(UserID).child("reqdate").setValue(date);
+                        databaseReference.child("Users").child(UserID).child("reqblood").setValue(unit);
                         Log.d("builder", "positive");
                     }
                 });
@@ -94,6 +98,9 @@ public class seekerPage extends AppCompatActivity {
                 Log.d("item", "myaccount");
                 return true;
             case R.id.logout:
+                mAuth.signOut();
+                Toast.makeText(seekerPage.this, "Sign out successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(seekerPage.this, LoginActivityPatient.class));
                 Log.d("item", "logout");
                 return true;
         }
